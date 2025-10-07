@@ -44,6 +44,8 @@ class SendGridService:
         """
         try:
             logger.info(f"📧 Preparing SendGrid email to: {to_email}")
+            logger.info(f"📧 Using from_email: {self.from_email}")
+            logger.info(f"📧 API key starts with: {self.api_key[:20]}...")
             
             # Create the email
             message = Mail(
