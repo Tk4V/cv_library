@@ -14,7 +14,7 @@ services:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - OPENAI_MODEL=${OPENAI_MODEL:-gpt-3.5-turbo}
       - SENDGRID_API_KEY=${SENDGRID_API_KEY}
-      - SENDGRID_FROM_EMAIL=${SENDGRID_FROM_EMAIL:-noreply@yourdomain.com}
+      - SENDGRID_FROM_EMAIL=${SENDGRID_FROM_EMAIL:-vasyl.tkach518@gmail.com}
       - ALLOWED_HOSTS=${ALLOWED_HOSTS:-localhost,127.0.0.1,0.0.0.0}
     depends_on:
       - db
@@ -26,6 +26,8 @@ services:
 
   worker:
     build: .
+    env_file:
+      - .env
     environment:
       - DJANGO_SETTINGS_MODULE=CVProject.settings.dev
       - DEBUG=1
@@ -37,7 +39,7 @@ services:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - OPENAI_MODEL=${OPENAI_MODEL:-gpt-3.5-turbo}
       - SENDGRID_API_KEY=${SENDGRID_API_KEY}
-      - SENDGRID_FROM_EMAIL=${SENDGRID_FROM_EMAIL:-noreply@yourdomain.com}
+      - SENDGRID_FROM_EMAIL=${SENDGRID_FROM_EMAIL}
       - SKIP_MIGRATIONS=1
     depends_on:
       - db
@@ -50,6 +52,8 @@ services:
 
   beat:
     build: .
+    env_file:
+      - .env
     environment:
       - DJANGO_SETTINGS_MODULE=CVProject.settings.dev
       - DEBUG=1
@@ -61,7 +65,7 @@ services:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - OPENAI_MODEL=${OPENAI_MODEL:-gpt-3.5-turbo}
       - SENDGRID_API_KEY=${SENDGRID_API_KEY}
-      - SENDGRID_FROM_EMAIL=${SENDGRID_FROM_EMAIL:-noreply@yourdomain.com}
+      - SENDGRID_FROM_EMAIL=${SENDGRID_FROM_EMAIL}
       - SKIP_MIGRATIONS=1
     depends_on:
       - db
