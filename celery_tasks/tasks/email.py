@@ -1,7 +1,8 @@
 """
-Email sending tasks.
+Email sending tasks with SendGrid integration.
 """
 import logging
+import os
 from typing import Dict, Any
 from celery import shared_task
 from django.core.mail import send_mail
@@ -65,11 +66,46 @@ def email_cv_pdf_task(self, cv_id: int, recipient: str) -> Dict[str, Any]:
         
         # Prepare email content
         subject = f'CV: {cv.firstname} {cv.lastname}'
-        message = f'Please find attached the CV for {cv.firstname} {cv.lastname}.'
+        message = f'<p>Please find attached the CV for <strong>{cv.firstname} {cv.lastname}</strong>.</p>'
+        pdf_filename = f'cv_{cv_id}_{cv.firstname}_{cv.lastname}.pdf'
         logger.info(f"📧 Email content prepared - Subject: {subject}")
         
-        # Send email with PDF attachment
-        logger.info("📧 Creating EmailMessage...")
+        # Try SendGrid first if API key is available
+        sendgrid_api_key = os.getenv('SENDGRID_API_KEY')
+        if sendgrid_api_key:
+            try:
+                logger.info("📧 Using SendGrid for email delivery")
+                from celery_tasks.services.sendgrid_service import SendGridService
+                
+                sendgrid_service = SendGridService(sendgrid_api_key)
+                result = sendgrid_service.send_email_with_attachment(
+                    to_email=recipient,
+                    subject=subject,
+                    content=message,
+                    pdf_content=pdf_bytes,
+                    pdf_filename=pdf_filename
+                )
+                
+                if result['status'] == 'success':
+                    logger.info("✅ Email sent successfully via SendGrid!")
+                    self.update_state(
+                        state='PROGRESS',
+                        meta={'current': 100, 'total': 100, 'status': 'Email sent successfully!'}
+                    )
+                    logger.info("📧 Task state updated: Email sent successfully!")
+                    logger.info(f"✅ Email task completed successfully: {result}")
+                    return result
+                else:
+                    logger.warning(f"⚠️ SendGrid failed: {result.get('error', 'Unknown error')}")
+                    logger.info("📧 Falling back to Django SMTP...")
+            except Exception as e:
+                logger.warning(f"⚠️ SendGrid error: {str(e)}")
+                logger.info("📧 Falling back to Django SMTP...")
+        else:
+            logger.info("📧 SendGrid API key not found, using Django SMTP")
+        
+        # Fallback to Django SMTP
+        logger.info("📧 Creating EmailMessage (Django SMTP)...")
         from django.core.mail import EmailMessage
         email = EmailMessage(
             subject=subject,
@@ -77,16 +113,13 @@ def email_cv_pdf_task(self, cv_id: int, recipient: str) -> Dict[str, Any]:
             from_email=settings.DEFAULT_FROM_EMAIL,
             to=[recipient],
         )
-        email.attach(
-            f'cv_{cv_id}_{cv.firstname}_{cv.lastname}.pdf',
-            pdf_bytes,
-            'application/pdf'
-        )
+        email.content_subtype = 'html'
+        email.attach(pdf_filename, pdf_bytes, 'application/pdf')
         logger.info(f"📧 EmailMessage created, attempting to send to: {recipient}")
         
         # Send the email
         email.send()
-        logger.info("✅ Email sent successfully!")
+        logger.info("✅ Email sent successfully via Django SMTP!")
         
         # Update progress
         self.update_state(

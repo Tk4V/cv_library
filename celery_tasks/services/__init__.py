@@ -6,6 +6,7 @@ from .analysis_service import AnalysisService
 from .pdf_service import PDFService
 from .email_service import EmailService
 from .translation_service import TranslationService
+from .sendgrid_service import SendGridService
 
 __all__ = [
     'BaseService',
@@ -13,6 +14,7 @@ __all__ = [
     'PDFService', 
     'EmailService',
     'TranslationService',
+    'SendGridService',
 ]
 
 
