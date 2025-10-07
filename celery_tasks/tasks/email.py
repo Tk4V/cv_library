@@ -70,56 +70,38 @@ def email_cv_pdf_task(self, cv_id: int, recipient: str) -> Dict[str, Any]:
         pdf_filename = f'cv_{cv_id}_{cv.firstname}_{cv.lastname}.pdf'
         logger.info(f"📧 Email content prepared - Subject: {subject}")
         
-        # Try SendGrid first if API key is available
+        # Use SendGrid for email delivery
         sendgrid_api_key = os.getenv('SENDGRID_API_KEY')
-        if sendgrid_api_key:
-            try:
-                logger.info("📧 Using SendGrid for email delivery")
-                from celery_tasks.services.sendgrid_service import SendGridService
-                
-                sendgrid_service = SendGridService(sendgrid_api_key)
-                result = sendgrid_service.send_email_with_attachment(
-                    to_email=recipient,
-                    subject=subject,
-                    content=message,
-                    pdf_content=pdf_bytes,
-                    pdf_filename=pdf_filename
-                )
-                
-                if result['status'] == 'success':
-                    logger.info("✅ Email sent successfully via SendGrid!")
-                    self.update_state(
-                        state='PROGRESS',
-                        meta={'current': 100, 'total': 100, 'status': 'Email sent successfully!'}
-                    )
-                    logger.info("📧 Task state updated: Email sent successfully!")
-                    logger.info(f"✅ Email task completed successfully: {result}")
-                    return result
-                else:
-                    logger.warning(f"⚠️ SendGrid failed: {result.get('error', 'Unknown error')}")
-                    logger.info("📧 Falling back to Django SMTP...")
-            except Exception as e:
-                logger.warning(f"⚠️ SendGrid error: {str(e)}")
-                logger.info("📧 Falling back to Django SMTP...")
-        else:
-            logger.info("📧 SendGrid API key not found, using Django SMTP")
+        if not sendgrid_api_key:
+            error_msg = "SendGrid API key not configured"
+            logger.error(f"❌ {error_msg}")
+            raise ValueError(error_msg)
         
-        # Fallback to Django SMTP
-        logger.info("📧 Creating EmailMessage (Django SMTP)...")
-        from django.core.mail import EmailMessage
-        email = EmailMessage(
+        logger.info("📧 Using SendGrid for email delivery")
+        from celery_tasks.services.sendgrid_service import SendGridService
+        
+        sendgrid_service = SendGridService(sendgrid_api_key)
+        result = sendgrid_service.send_email_with_attachment(
+            to_email=recipient,
             subject=subject,
-            body=message,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            to=[recipient],
+            content=message,
+            pdf_content=pdf_bytes,
+            pdf_filename=pdf_filename
         )
-        email.content_subtype = 'html'
-        email.attach(pdf_filename, pdf_bytes, 'application/pdf')
-        logger.info(f"📧 EmailMessage created, attempting to send to: {recipient}")
         
-        # Send the email
-        email.send()
-        logger.info("✅ Email sent successfully via Django SMTP!")
+        if result['status'] == 'success':
+            logger.info("✅ Email sent successfully via SendGrid!")
+            self.update_state(
+                state='PROGRESS',
+                meta={'current': 100, 'total': 100, 'status': 'Email sent successfully!'}
+            )
+            logger.info("📧 Task state updated: Email sent successfully!")
+            logger.info(f"✅ Email task completed successfully: {result}")
+            return result
+        else:
+            error_msg = result.get('error', 'Unknown error')
+            logger.error(f"❌ SendGrid failed: {error_msg}")
+            raise Exception(f"SendGrid email failed: {error_msg}")
         
         # Update progress
         self.update_state(
