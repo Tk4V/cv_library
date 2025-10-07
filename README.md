@@ -62,13 +62,15 @@ REDIS_URL=redis://redis:6379/0
 CELERY_BROKER_URL=redis://redis:6379/0
 CELERY_RESULT_BACKEND=redis://redis:6379/0
 
-# OpenAI (Optional - for AI features)
-OPENAI_API_KEY=your-openai-api-key
-OPENAI_MODEL=gpt-3.5-turbo
+    # OpenAI (Optional - for AI features)
+    OPENAI_API_KEY=your-openai-api-key
+    OPENAI_MODEL=gpt-3.5-turbo
 
-# Email (Optional - for email features)
-EMAIL_HOST_USER=your-email@gmail.com
-EMAIL_HOST_PASSWORD=your-app-password
+    # SendGrid Email (Optional - for email features)
+    # Get your API key from https://app.sendgrid.com/settings/api_keys
+    # Verify your sender at https://app.sendgrid.com/settings/sender_auth/senders
+    SENDGRID_API_KEY=your-sendgrid-api-key
+    SENDGRID_FROM_EMAIL=your-verified-email@example.com
 ```
 
 ### 3. Start the Application

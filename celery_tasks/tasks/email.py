@@ -31,15 +31,6 @@ def email_cv_pdf_task(self, cv_id: int, recipient: str) -> Dict[str, Any]:
     logger.info(f"📧 Starting email task for CV ID: {cv_id}, recipient: {recipient}")
     
     try:
-        # Log email configuration
-        logger.info(f"📧 Email configuration:")
-        logger.info(f"  - EMAIL_BACKEND: {getattr(settings, 'EMAIL_BACKEND', 'Not set')}")
-        logger.info(f"  - EMAIL_HOST: {getattr(settings, 'EMAIL_HOST', 'Not set')}")
-        logger.info(f"  - EMAIL_PORT: {getattr(settings, 'EMAIL_PORT', 'Not set')}")
-        logger.info(f"  - EMAIL_USE_TLS: {getattr(settings, 'EMAIL_USE_TLS', 'Not set')}")
-        logger.info(f"  - DEFAULT_FROM_EMAIL: {getattr(settings, 'DEFAULT_FROM_EMAIL', 'Not set')}")
-        logger.info(f"  - EMAIL_HOST_USER: {getattr(settings, 'EMAIL_HOST_USER', 'Not set')}")
-        
         cv = CV.objects.get(pk=cv_id)
         logger.info(f"📄 Found CV: {cv.firstname} {cv.lastname} (ID: {cv_id})")
         
