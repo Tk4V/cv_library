@@ -40,6 +40,14 @@ MIDDLEWARE = [
 # Remove None values from middleware
 MIDDLEWARE = [m for m in MIDDLEWARE if m is not None]
 
+# CSRF Configuration for HTTPS
+CSRF_TRUSTED_ORIGINS = [
+    'https://104.248.251.244',
+    'http://104.248.251.244',
+    'https://localhost:8000',
+    'http://localhost:8000',
+]
+
 ROOT_URLCONF = 'CVProject.urls'
 
 TEMPLATES = [
