@@ -189,9 +189,9 @@ cv_library/
 | `SECRET_KEY` | Django secret key | Required |
 | `DJANGO_DEBUG` | Debug mode | `True` |
 | `ALLOWED_HOSTS` | Allowed hosts | `localhost,127.0.0.1` |
-| `DATABASE_URL` | Database connection | `sqlite:///db.sqlite3` |
-| `EMAIL_HOST_USER` | Gmail username | Required for email |
-| `EMAIL_HOST_PASSWORD` | Gmail App Password | Required for email |
+| `DATABASE_URL` | Database connection | `postgresql://postgres:postgres@db:5432/cvdb` |
+| `SENDGRID_API_KEY` | SendGrid API key | Required for email |
+| `SENDGRID_FROM_EMAIL` | Verified sender email | Required for email |
 | `OPENAI_API_KEY` | OpenAI API key | Optional |
 
 ## Docker Services
@@ -203,29 +203,32 @@ cv_library/
 - **db**: PostgreSQL database
 - **redis**: Redis cache and message broker
 
-## Email Configuration
+## SendGrid Email Configuration
 
-The application supports multiple email backends:
+The application uses **SendGrid** for reliable email delivery.
 
-### Gmail (Recommended)
-```bash
-EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_HOST_USER=your-email@gmail.com
-EMAIL_HOST_PASSWORD=your-app-password
-EMAIL_USE_TLS=True
-```
+### Setup SendGrid:
 
-### SendGrid
-```bash
-EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-EMAIL_HOST=smtp.sendgrid.net
-EMAIL_PORT=587
-EMAIL_HOST_USER=apikey
-EMAIL_HOST_PASSWORD=your-sendgrid-api-key
-EMAIL_USE_TLS=True
-```
+1. **Create a SendGrid account**: https://signup.sendgrid.com/
+2. **Get your API key**: https://app.sendgrid.com/settings/api_keys
+   - Click "Create API Key"
+   - Name: "CV_Project_API_Key"
+   - Select "Full Access"
+   - Copy the API key immediately!
+3. **Verify your sender email**: https://app.sendgrid.com/settings/sender_auth/senders
+   - Click "Create New Sender"
+   - Fill in your details
+   - Use your real email (e.g., `your-email@gmail.com`)
+   - Check your email and click the verification link
+4. **Update your `.env` file**:
+   ```bash
+   SENDGRID_API_KEY=your-sendgrid-api-key-here
+   SENDGRID_FROM_EMAIL=your-verified-email@gmail.com
+   ```
+5. **Restart containers**:
+   ```bash
+   docker-compose -f docker-compose.dev.yml restart
+   ```
 
 ## Troubleshooting
 
@@ -239,9 +242,11 @@ EMAIL_USE_TLS=True
    ```
 
 2. **Email Not Sending**:
-   - Check Gmail App Password is correct
-   - Ensure 2-Step Verification is enabled
-   - Verify email credentials in `.env` file
+   - **Verify your sender email** at https://app.sendgrid.com/settings/sender_auth/senders
+   - **Check your SendGrid API key** is correct in `.env` file
+   - **Ensure API key has "Mail Send" permission** (Full Access recommended)
+   - **Check SendGrid account status** - Free tier has 100 emails/day limit
+   - View worker logs: `docker-compose -f docker-compose.dev.yml logs worker`
 
 3. **Celery Tasks Not Running**:
    ```bash
