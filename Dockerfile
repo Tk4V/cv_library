@@ -27,16 +27,16 @@ ENV PATH="/root/.local/bin:$PATH"
 # Copy and install dependencies
 COPY pyproject.toml poetry.lock* ./
 RUN poetry config virtualenvs.create false && \
+    poetry lock --no-update && \
     poetry install --no-root --no-interaction --no-ansi --only main
 
 # Copy application code
 COPY . .
 
 # Make scripts executable
-RUN chmod +x entrypoint.sh start.sh start_prod.sh
+RUN chmod +x entrypoint.sh start.sh start_prod.sh && \
+    sed -i 's/\r$//' entrypoint.sh start.sh start_prod.sh
 
 # Use entrypoint script
 ENTRYPOINT ["/bin/bash", "entrypoint.sh"]
 CMD ["gunicorn", "CVProject.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2", "--timeout", "30"]
-
-
