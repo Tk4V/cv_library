@@ -1,0 +1,219 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{{ title }} | CV Project Admin{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        <i class="bi bi-file-text"></i> CV Project Administration
+    </a>
+</h1>
+{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+<style>
+    /* Modern color scheme */
+    :root {
+        --primary-color: #0ea5e9;
+        --primary-dark: #0284c7;
+        --accent-color: #06b6d4;
+        --success-color: #10b981;
+        --danger-color: #ef4444;
+        --warning-color: #f59e0b;
+    }
+
+    /* Header styling */
+    #header {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        color: white;
+        padding: 1rem 2rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    #site-name a {
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.5rem;
+    }
+
+    #site-name a:hover {
+        color: rgba(255,255,255,0.9);
+    }
+
+    /* User tools */
+    #user-tools {
+        color: white;
+        padding: 0;
+        margin: 0;
+    }
+
+    #user-tools a {
+        color: white;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        transition: background 0.2s;
+    }
+
+    #user-tools a:hover {
+        background: rgba(255,255,255,0.2);
+    }
+
+    /* Breadcrumbs */
+    .breadcrumbs {
+        background: #f8fafc;
+        padding: 1rem 2rem;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .breadcrumbs a {
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+
+    .breadcrumbs a:hover {
+        color: var(--primary-dark);
+        text-decoration: underline;
+    }
+
+    /* Module styling */
+    .module {
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        border: 1px solid #e2e8f0;
+    }
+
+    .module h2, .module caption {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        color: white;
+        padding: 1rem;
+        border-radius: 0.5rem 0.5rem 0 0;
+    }
+
+    /* Table styling */
+    #changelist table {
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
+    }
+
+    #changelist thead th {
+        background: #f8fafc;
+        color: #334155;
+        font-weight: 600;
+        padding: 1rem;
+        border-bottom: 2px solid #e2e8f0;
+    }
+
+    #changelist tbody tr {
+        transition: background 0.2s;
+    }
+
+    #changelist tbody tr:hover {
+        background: #f1f5f9;
+    }
+
+    /* Buttons */
+    .button, input[type="submit"], button, .submit-row input {
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 0.5rem 1.5rem;
+        border-radius: 0.375rem;
+        font-weight: 500;
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+
+    .button:hover, input[type="submit"]:hover, button:hover {
+        background: var(--primary-dark);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .button.default, input[type="submit"].default, .submit-row input[type="submit"] {
+        background: var(--success-color);
+    }
+
+    .button.default:hover, input[type="submit"].default:hover {
+        background: #059669;
+    }
+
+    /* Delete button */
+    .deletelink, .deletelink-box {
+        background: var(--danger-color);
+    }
+
+    .deletelink:hover, .deletelink-box:hover {
+        background: #dc2626;
+    }
+
+    /* Filters */
+    #changelist-filter {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
+        padding: 1rem;
+    }
+
+    #changelist-filter h2 {
+        background: transparent;
+        color: #334155;
+        padding: 0;
+        margin-bottom: 1rem;
+        font-size: 1.125rem;
+    }
+
+    #changelist-filter li.selected a {
+        color: var(--primary-color);
+        font-weight: 600;
+    }
+
+    /* Form styling */
+    .form-row {
+        padding: 1rem;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .form-row:last-child {
+        border-bottom: none;
+    }
+
+    /* Dashboard */
+    .dashboard #content {
+        width: 100%;
+    }
+
+    .dashboard .module table {
+        width: 100%;
+    }
+
+    /* Icons */
+    .addlink::before {
+        content: "➕ ";
+    }
+
+    .changelink::before {
+        content: "✏️ ";
+    }
+
+    .deletelink::before {
+        content: "🗑️ ";
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        #header {
+            padding: 1rem;
+        }
+
+        .breadcrumbs {
+            padding: 0.5rem 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
