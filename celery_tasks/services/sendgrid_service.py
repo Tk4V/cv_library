@@ -79,9 +79,18 @@ class SendGridService:
         except Exception as e:
             logger.error(f"❌ SendGrid email failed: {str(e)}")
             logger.exception("Full exception details:")
+            
+            # Try to get more details from the error
+            error_details = str(e)
+            if hasattr(e, 'body'):
+                logger.error(f"❌ SendGrid error body: {e.body}")
+                error_details = f"{str(e)} - Body: {e.body}"
+            if hasattr(e, 'to_dict'):
+                logger.error(f"❌ SendGrid error dict: {e.to_dict}")
+            
             return {
                 'status': 'error',
-                'error': str(e),
+                'error': error_details,
                 'recipient': to_email
             }
     
