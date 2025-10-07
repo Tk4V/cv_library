@@ -1,17 +1,19 @@
 # CV Project
 
-A Django-based CV management system with PDF generation, email functionality, and AI-powered analysis features.
+A modern Django-based CV management system with PDF generation, email functionality, AI-powered analysis, and Docker deployment. Perfect for job applications and professional CV management.
 
-## Features
+## ✨ Features
 
-- 📝 **CV Management**: Create, edit, and manage CVs
-- 📄 **PDF Generation**: Generate professional PDFs of your CVs
+- 📝 **CV Management**: Create, edit, and manage professional CVs
+- 📄 **PDF Generation**: Generate beautiful PDFs with custom styling
 - 📧 **Email Integration**: Send CVs via email with PDF attachments
-- 🤖 **AI Analysis**: AI-powered CV analysis and suggestions
+- 🤖 **AI Analysis**: OpenAI-powered CV analysis and suggestions
 - 🌐 **Translation**: Multi-language CV translation support
-- 📊 **Analytics**: Request logging and statistics
-- 🔄 **Async Processing**: Background tasks with Celery
-- 🐳 **Docker Support**: Easy deployment with Docker Compose
+- 📊 **Analytics**: Request logging and usage statistics
+- 🔄 **Async Processing**: Background tasks with Celery and Redis
+- 🐳 **Docker Support**: Fast, optimized Docker setup
+- 📱 **Responsive UI**: Modern, mobile-friendly interface
+- 🔐 **Authentication**: User registration and login system
 
 ## Tech Stack
 
@@ -29,73 +31,68 @@ A Django-based CV management system with PDF generation, email functionality, an
 - Docker and Docker Compose
 - Git
 
-## Quick Start
+## 🚀 Quick Start
 
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repo-url>
-cd CVProject
+git clone https://github.com/Tk4V/cv_library.git
+cd cv_library
 ```
 
 ### 2. Environment Setup
 
-Create a `.env` file in the project root:
+Copy the example environment file and configure:
+
+```bash
+cp env.dev.example .env
+```
+
+Edit `.env` file with your settings:
 
 ```bash
 # Django Settings
-SECRET_KEY=your-secret-key-here
-DJANGO_DEBUG=True
-ALLOWED_HOSTS=localhost,127.0.0.1
+SECRET_KEY=dev-secret-key-change-in-production
+DEBUG=1
+ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0
 
-# Database (for local development)
-DATABASE_URL=sqlite:///db.sqlite3
+# Database (Docker handles this)
+DATABASE_URL=postgresql://postgres:postgres@db:5432/cvdb
+REDIS_URL=redis://redis:6379/0
+CELERY_BROKER_URL=redis://redis:6379/0
+CELERY_RESULT_BACKEND=redis://redis:6379/0
 
-# Celery
-CELERY_BROKER_URL=redis://localhost:6379/0
-CELERY_RESULT_BACKEND=redis://localhost:6379/0
+# OpenAI (Optional - for AI features)
+OPENAI_API_KEY=your-openai-api-key
+OPENAI_MODEL=gpt-3.5-turbo
 
-# Email Configuration - Gmail SMTP
-EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
+# Email (Optional - for email features)
 EMAIL_HOST_USER=your-email@gmail.com
 EMAIL_HOST_PASSWORD=your-app-password
-EMAIL_USE_TLS=True
-DEFAULT_FROM_EMAIL=your-email@gmail.com
-
-# OpenAI (Optional)
-OPENAI_API_KEY=your-openai-api-key
-OPENAI_MODEL=gpt-4o-mini
-OPENAI_PROJECT=your-openai-project-id
 ```
 
-### 3. Gmail Setup (for Email Functionality)
-
-1. Go to [Google Account Security](https://myaccount.google.com/security)
-2. Enable **2-Step Verification**
-3. Go to **App passwords** → **Mail**
-4. Generate a new App Password
-5. Update `EMAIL_HOST_PASSWORD` in your `.env` file
-
-### 4. Start the Application
+### 3. Start the Application
 
 ```bash
-# Start all services
-docker-compose up -d
+# Start all services with optimized Docker setup
+docker-compose -f docker-compose.dev.yml up -d
 
 # View logs
-docker-compose logs -f
+docker-compose -f docker-compose.dev.yml logs -f
 
 # Stop services
-docker-compose down
+docker-compose -f docker-compose.dev.yml down
 ```
 
-### 5. Access the Application
+### 4. Access the Application
 
 - **Web Application**: http://localhost:8000
-- **API Documentation**: http://localhost:8000/api/schema/swagger-ui/
-- **Celery Monitoring**: http://localhost:5555
+- **API Documentation**: http://localhost:8000/api/docs/
+- **Admin Panel**: http://localhost:8000/admin/ (admin/admin123)
+
+### 5. Sample Data
+
+The application comes with **3 sample CVs** pre-loaded for immediate testing and demonstration.
 
 ## Development Setup
 
@@ -135,44 +132,52 @@ docker exec cvproject-web-1 python manage.py test
 poetry run python manage.py test
 ```
 
-## API Endpoints
-
-### Authentication
-- `POST /api/auth/login/` - User login
-- `POST /api/auth/logout/` - User logout
+## 📡 API Endpoints
 
 ### CV Management
-- `GET /api/cvs/` - List all CVs
-- `POST /api/cvs/` - Create new CV
-- `GET /api/cvs/{id}/` - Get CV details
-- `PUT /api/cvs/{id}/` - Update CV
-- `DELETE /api/cvs/{id}/` - Delete CV
+- `GET /api/cv/` - List all CVs
+- `POST /api/cv/` - Create new CV
+- `GET /api/cv/{id}/` - Get CV details
+- `PUT /api/cv/{id}/` - Update CV
+- `DELETE /api/cv/{id}/` - Delete CV
 
-### Email
-- `POST /api/cvs/{id}/email/` - Send CV via email
+### Logs & Analytics
+- `GET /api/logs/` - View request logs
+- `GET /api/logs/?since=2024-01-01&until=2024-12-31` - Filter logs by date
 
-### Analysis
-- `POST /api/cvs/{id}/analyze/` - Analyze CV with AI
+### Web Interface
+- `GET /` - Home page
+- `GET /cvs/` - CV list page
+- `GET /cv/create/` - Create CV form
+- `GET /cv/{id}/` - CV detail page
+- `GET /cv/{id}/edit/` - Edit CV form
+- `GET /login/` - Login page
+- `GET /register/` - Registration page
 
-## Project Structure
+## 📁 Project Structure
 
 ```
-CVProject/
-├── CVProject/              # Django project settings
-│   ├── settings/           # Environment-specific settings
-│   └── celery.py          # Celery configuration
-├── main/                   # Main Django app
-│   ├── api/               # REST API views and serializers
-│   ├── models.py          # Database models
-│   ├── services.py        # Business logic services
-│   ├── templates/         # HTML templates
-│   └── web/               # Web views
-├── celery_tasks/          # Celery tasks and services
-│   ├── tasks/             # Background tasks
-│   └── services/          # Task services
-├── docker-compose.yml     # Docker services configuration
-├── Dockerfile            # Docker image definition
-└── .env                  # Environment variables
+cv_library/
+├── CVProject/                    # Django project settings
+│   ├── settings/                # Environment-specific settings
+│   └── celery.py               # Celery configuration
+├── main/                        # Main Django app
+│   ├── api/                    # REST API views and serializers
+│   ├── fixtures/               # Sample data fixtures
+│   │   └── sample_cvs.json     # 3 sample CVs for demo
+│   ├── models.py               # Database models
+│   ├── services.py             # Business logic services
+│   ├── templates/              # HTML templates
+│   └── web/                    # Web views
+├── celery_tasks/               # Celery tasks and services
+│   ├── tasks/                  # Background tasks
+│   └── services/               # Task services
+├── docker-compose.dev.yml      # Development Docker setup
+├── docker-compose.prod.yml     # Production Docker setup
+├── Dockerfile                  # Optimized Docker image
+├── entrypoint.sh              # Docker entrypoint script
+├── env.dev.example            # Development environment template
+└── README.md                  # This file
 ```
 
 ## Environment Variables
