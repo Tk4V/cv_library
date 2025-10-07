@@ -1,0 +1,47 @@
+[
+  {
+    "model": "main.cv",
+    "pk": 1,
+    "fields": {
+      "firstname": "John",
+      "lastname": "Doe",
+      "bio": "Experienced Full-Stack Developer with 5+ years of experience in web development, specializing in Django, React, and cloud technologies. Passionate about creating scalable and efficient web applications.",
+      "skills": "Python, Django, React, JavaScript, PostgreSQL, Redis, Docker, AWS, Git, REST APIs, Celery, HTML/CSS",
+      "projects": "E-commerce Platform: Built a full-stack e-commerce solution using Django and React, handling 10k+ daily users. Real-time Chat Application: Developed a WebSocket-based chat system with Redis for message queuing. API Development: Created RESTful APIs for mobile applications serving 50k+ users.",
+      "contacts": "Email: john.doe@email.com, Phone: +1-555-0123, LinkedIn: linkedin.com/in/johndoe, GitHub: github.com/johndoe",
+      "owner": null,
+      "created_at": "2024-01-15T10:30:00Z",
+      "updated_at": "2024-01-15T10:30:00Z"
+    }
+  },
+  {
+    "model": "main.cv",
+    "pk": 2,
+    "fields": {
+      "firstname": "Sarah",
+      "lastname": "Johnson",
+      "bio": "Senior Data Scientist with expertise in machine learning, statistical analysis, and big data processing. Strong background in Python, R, and cloud platforms. Led multiple ML projects that improved business metrics by 30%.",
+      "skills": "Python, R, Machine Learning, TensorFlow, PyTorch, Pandas, NumPy, Scikit-learn, SQL, Apache Spark, AWS, Jupyter, Statistics, Data Visualization",
+      "projects": "Customer Churn Prediction: Developed ML model with 85% accuracy to predict customer churn, saving $2M annually. Recommendation System: Built collaborative filtering system increasing user engagement by 25%. Data Pipeline: Created automated ETL pipeline processing 1TB+ daily data.",
+      "contacts": "Email: sarah.johnson@email.com, Phone: +1-555-0456, LinkedIn: linkedin.com/in/sarahjohnson, Portfolio: sarahjohnson.dev",
+      "owner": null,
+      "created_at": "2024-01-20T14:15:00Z",
+      "updated_at": "2024-01-20T14:15:00Z"
+    }
+  },
+  {
+    "model": "main.cv",
+    "pk": 3,
+    "fields": {
+      "firstname": "Michael",
+      "lastname": "Chen",
+      "bio": "DevOps Engineer with 4+ years of experience in cloud infrastructure, automation, and CI/CD pipelines. Expert in containerization, Kubernetes, and infrastructure as code. Passionate about building reliable and scalable systems.",
+      "skills": "Docker, Kubernetes, AWS, Terraform, Jenkins, GitLab CI, Python, Bash, Linux, Monitoring, Prometheus, Grafana, ELK Stack, Microservices",
+      "projects": "Kubernetes Migration: Led migration of 50+ microservices to Kubernetes, reducing deployment time by 70%. Infrastructure Automation: Implemented Terraform for infrastructure as code, reducing manual setup time by 90%. CI/CD Pipeline: Built automated deployment pipeline reducing release time from days to hours.",
+      "contacts": "Email: michael.chen@email.com, Phone: +1-555-0789, LinkedIn: linkedin.com/in/michaelchen, GitHub: github.com/michaelchen",
+      "owner": null,
+      "created_at": "2024-01-25T09:45:00Z",
+      "updated_at": "2024-01-25T09:45:00Z"
+    }
+  }
+]

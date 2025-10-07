@@ -1,0 +1,99 @@
+{% extends 'main/base.html' %}
+{% block title %}{% if object %}Edit CV{% else %}Create CV{% endif %}{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="mb-0">
+                <i class="bi bi-file-text me-2"></i>
+                {% if object %}Edit CV{% else %}Create New CV{% endif %}
+            </h1>
+            <a href="{% url 'cv_list' %}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-2"></i>Back to CVs
+            </a>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="card shadow">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="{{ form.firstname.id_for_label }}" class="form-label">First Name</label>
+                            <input type="text" name="{{ form.firstname.name }}" value="{{ form.firstname.value|default:'' }}" class="form-control" id="{{ form.firstname.id_for_label }}">
+                            {% if form.firstname.errors %}
+                                <div class="invalid-feedback d-block">{{ form.firstname.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.lastname.id_for_label }}" class="form-label">Last Name</label>
+                            <input type="text" name="{{ form.lastname.name }}" value="{{ form.lastname.value|default:'' }}" class="form-control" id="{{ form.lastname.id_for_label }}">
+                            {% if form.lastname.errors %}
+                                <div class="invalid-feedback d-block">{{ form.lastname.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.bio.id_for_label }}" class="form-label">Bio</label>
+                        <textarea name="{{ form.bio.name }}" class="form-control" id="{{ form.bio.id_for_label }}" rows="4">{{ form.bio.value|default:'' }}</textarea>
+                        {% if form.bio.errors %}
+                            <div class="invalid-feedback d-block">{{ form.bio.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.skills.id_for_label }}" class="form-label">Skills</label>
+                        <textarea name="{{ form.skills.name }}" class="form-control" id="{{ form.skills.id_for_label }}" rows="3">{{ form.skills.value|default:'' }}</textarea>
+                        {% if form.skills.errors %}
+                            <div class="invalid-feedback d-block">{{ form.skills.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.projects.id_for_label }}" class="form-label">Projects</label>
+                        <textarea name="{{ form.projects.name }}" class="form-control" id="{{ form.projects.id_for_label }}" rows="3">{{ form.projects.value|default:'' }}</textarea>
+                        {% if form.projects.errors %}
+                            <div class="invalid-feedback d-block">{{ form.projects.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="{{ form.contacts.id_for_label }}" class="form-label">Contacts</label>
+                        <textarea name="{{ form.contacts.name }}" class="form-control" id="{{ form.contacts.id_for_label }}" rows="2">{{ form.contacts.value|default:'' }}</textarea>
+                        {% if form.contacts.errors %}
+                            <div class="invalid-feedback d-block">{{ form.contacts.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="d-flex gap-2 justify-content-end">
+                        <a href="{% url 'cv_list' %}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle me-2"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle me-2"></i>
+                            {% if object %}Update CV{% else %}Create CV{% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+
+

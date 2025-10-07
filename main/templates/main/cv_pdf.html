@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <style>
+    body { font-family: DejaVu Sans, Arial, sans-serif; font-size: 12px; }
+    h1 { font-size: 20px; }
+    h3 { margin: 12px 0 4px; }
+    .muted { color: #666; }
+    .box { border: 1px solid #ccc; padding: 8px; border-radius: 6px; }
+  </style>
+  <title>{{ cv.firstname }} {{ cv.lastname }} - CV</title>
+  </head>
+<body>
+  <h1>{{ cv.firstname }} {{ cv.lastname }}</h1>
+  <div class="muted">Curriculum Vitae</div>
+  <h3>Bio</h3>
+  <div class="box">{{ cv.bio }}</div>
+  <h3>Skills</h3>
+  <div class="box">{{ cv.skills }}</div>
+  <h3>Projects</h3>
+  <div class="box">{{ cv.projects }}</div>
+  <h3>Contacts</h3>
+  <div class="box">{{ cv.contacts }}</div>
+</body>
+</html>
+
+

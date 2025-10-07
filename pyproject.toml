@@ -1,0 +1,78 @@
+[tool.poetry]
+name = "cvproject"
+version = "0.1.0"
+description = "Django CV project with DRF, PDF generation, Celery, and profiling"
+authors = ["Vasyl <you@example.com>"]
+packages = [
+    { include = "CVProject" },
+    { include = "main" },
+]
+
+[tool.poetry.dependencies]
+python = ">=3.12,<3.14"
+Django = ">=5.0,<6.0"
+djangorestframework = ">=3.16.0,<4.0"
+xhtml2pdf = ">=0.2.10"
+celery = ">=5.3,<6"
+redis = ">=5.0"
+flower = ">=2.0,<3"
+psycopg2-binary = ">=2.9"
+drf-spectacular = ">=0.27.0"
+django-silk = ">=5.1.0"
+dj-database-url = "^2.2.0"
+django-environ = "^0.11.2"
+openai = "^1.51.0"
+gunicorn = "^21.2.0"
+whitenoise = "^6.6.0"
+django-cors-headers = "^4.3.1"
+django-filter = "^23.5"
+Pillow = "^10.0.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.8.0"
+flake8 = "^7.0.0"
+isort = "^5.13.0"
+pytest = "^8.3.0"
+pytest-django = "^4.9.0"
+
+[tool.poetry.scripts]
+manage = "django.core.management:execute_from_command_line"
+
+[tool.black]
+line-length = 100
+
+[tool.isort]
+profile = "black"
+
+[tool.flake8]
+max-line-length = 100
+max-complexity = 10
+select = ["E", "F", "W", "C90"]
+ignore = ["E203", "E501", "W503"]
+exclude = [
+    ".git",
+    "__pycache__",
+    "migrations",
+    "venv",
+    "env",
+    ".venv",
+    ".env",
+    "build",
+    "dist",
+    "*.egg-info",
+    ".pytest_cache",
+    ".coverage",
+    "htmlcov",
+    "media",
+    "static",
+    "node_modules"
+]
+per-file-ignores = [
+    "__init__.py:F401",
+    "migrations/*:E501",
+    "settings/*:E501"
+]
+
+[build-system]
+requires = ["poetry-core>=1.8.0"]
+build-backend = "poetry.core.masonry.api"

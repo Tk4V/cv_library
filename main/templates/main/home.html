@@ -1,0 +1,171 @@
+{% extends 'main/base.html' %}
+{% block title %}Home - CVProject{% endblock %}
+{% block content %}
+<div class="hero-section">
+  <div class="hero-content">
+    <h1>Welcome to CVProject</h1>
+    <p class="hero-subtitle">Professional CV Management with AI-Powered Analysis</p>
+    <p class="hero-description">
+      Create, manage, and analyze CVs with our comprehensive platform. 
+      Generate PDFs, translate content, and get AI-powered insights to improve your professional profile.
+    </p>
+    
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+      {% if request.user.is_authenticated %}
+        <a class="btn btn-light btn-lg" href="/cvs/">
+          <i class="bi bi-file-text me-2"></i>View My CVs
+        </a>
+        <a class="btn btn-outline-light btn-lg" href="/api/docs/">
+          <i class="bi bi-book me-2"></i>API Documentation
+        </a>
+      {% else %}
+        <a class="btn btn-light btn-lg" href="/register/">
+          <i class="bi bi-rocket-takeoff me-2"></i>Get Started
+        </a>
+        <a class="btn btn-outline-light btn-lg" href="/login/">
+          <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<div class="mb-5">
+  <h2 class="text-center mb-5">Key Features</h2>
+  <div class="row g-4">
+    <div class="col-lg-4 col-md-6">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-file-text text-primary fs-2 me-3"></i>
+            <div>
+              <h5 class="card-title mb-1">CV Management</h5>
+              <p class="card-text text-muted small">Create and manage professional CVs</p>
+            </div>
+          </div>
+          <ul class="list-unstyled">
+            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Easy CV creation and editing</li>
+            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Professional templates</li>
+            <li class="mb-0"><i class="bi bi-check-circle text-success me-2"></i>Secure storage and access</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-4 col-md-6">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-file-earmark-pdf text-primary fs-2 me-3"></i>
+            <div>
+              <h5 class="card-title mb-1">PDF Generation</h5>
+              <p class="card-text text-muted small">Generate and share PDF versions</p>
+            </div>
+          </div>
+          <ul class="list-unstyled">
+            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>One-click PDF generation</li>
+            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Email PDFs directly</li>
+            <li class="mb-0"><i class="bi bi-check-circle text-success me-2"></i>Professional formatting</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-4 col-md-6">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-translate text-primary fs-2 me-3"></i>
+            <div>
+              <h5 class="card-title mb-1">Translation</h5>
+              <p class="card-text text-muted small">Translate CVs to multiple languages</p>
+            </div>
+          </div>
+          <ul class="list-unstyled">
+            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Support for 70+ languages</li>
+            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Professional translation quality</li>
+            <li class="mb-0"><i class="bi bi-check-circle text-success me-2"></i>Instant translation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-4 col-md-6">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-robot text-primary fs-2 me-3"></i>
+            <div>
+              <h5 class="card-title mb-1">AI Analysis</h5>
+              <p class="card-text text-muted small">Get AI-powered CV insights</p>
+            </div>
+          </div>
+          <ul class="list-unstyled">
+            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Improvement suggestions</li>
+            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Skills gap analysis</li>
+            <li class="mb-0"><i class="bi bi-check-circle text-success me-2"></i>Professional feedback</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-4 col-md-6">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-shield-check text-primary fs-2 me-3"></i>
+            <div>
+              <h5 class="card-title mb-1">Secure & Private</h5>
+              <p class="card-text text-muted small">Your data is protected</p>
+            </div>
+          </div>
+          <ul class="list-unstyled">
+            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Secure authentication</li>
+            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Data encryption</li>
+            <li class="mb-0"><i class="bi bi-check-circle text-success me-2"></i>Privacy controls</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-4 col-md-6">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-graph-up text-primary fs-2 me-3"></i>
+            <div>
+              <h5 class="card-title mb-1">Analytics</h5>
+              <p class="card-text text-muted small">Track and monitor usage</p>
+            </div>
+          </div>
+          <ul class="list-unstyled">
+            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Usage statistics</li>
+            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Performance metrics</li>
+            <li class="mb-0"><i class="bi bi-check-circle text-success me-2"></i>Admin dashboard</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if request.user.is_authenticated %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card text-center">
+      <div class="card-body">
+        <h5 class="card-title">
+          <i class="bi bi-file-text me-2"></i>Recent CVs
+        </h5>
+        <p class="card-text">View and manage your recent CVs</p>
+        <a href="/cvs/" class="btn btn-primary">
+          <i class="bi bi-eye me-2"></i>View All CVs
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+
+

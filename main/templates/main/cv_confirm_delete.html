@@ -1,0 +1,82 @@
+{% extends 'main/base.html' %}
+{% block title %}Delete CV{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="mb-0">
+                <i class="bi bi-trash me-2"></i>Delete CV
+            </h1>
+            <a href="{% url 'cv_list' %}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-2"></i>Back to CVs
+            </a>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="alert alert-warning text-center">
+            <i class="bi bi-exclamation-triangle display-4 d-block mb-3"></i>
+            <h4 class="alert-heading">Are you sure you want to delete this CV?</h4>
+            <p class="mb-0">This action cannot be undone. The following CV will be permanently deleted:</p>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">{{ object.firstname }} {{ object.lastname }}</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-primary">Bio:</h6>
+                        <div class="border rounded p-3 bg-light">
+                            {{ object.bio|truncatewords:20|default:"No bio provided" }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-primary">Skills:</h6>
+                        <div class="border rounded p-3 bg-light">
+                            {{ object.skills|truncatewords:15|default:"No skills listed" }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" name="confirm" id="confirm" required>
+                        <label class="form-check-label" for="confirm">
+                            I understand this action cannot be undone
+                        </label>
+                    </div>
+                    
+                    <div class="d-flex gap-2 justify-content-end">
+                        <a href="{% url 'cv_detail' object.pk %}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle me-2"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash me-2"></i>Delete CV
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+
+
